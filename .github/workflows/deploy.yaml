@@ -1,4 +1,4 @@
-name: 'Terraform'
+name: 'deployment'
 
 on:
   push:
@@ -52,3 +52,33 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
+
+# frontend to gcs job
+  frontend_to_gcs:
+    name: 'frontend_to_gcs'
+    runs-on: ubuntu-latest
+    environment: production
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup GCP Service Account
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+    # perform some checks of the frontend
+
+    - name: frontend upload to gcs
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+        gsc_bucket_path="gs://resume_bucket02934502349"
+        local_frontend="frontend"
+        gsutil -m cp -r "${local_frontend}/*" ${gsc_bucket_path}
