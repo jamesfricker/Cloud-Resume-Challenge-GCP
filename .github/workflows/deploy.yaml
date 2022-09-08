@@ -75,11 +75,13 @@ jobs:
       with:
         credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
 
+    # TODO
     # perform some checks of the frontend
 
     - name: frontend upload to gcs
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: |
-        gsc_bucket_path="gs://resume_bucket02934502349"
-        local_frontend="frontend"
-        gsutil -m cp -r "${local_frontend}/*" ${gsc_bucket_path}
+      id: 'upload-folder'
+      uses: 'google-github-actions/upload-cloud-storage@v0'
+      with:
+        path: 'frontend'
+        destination: 'resume_bucket02934502349'
