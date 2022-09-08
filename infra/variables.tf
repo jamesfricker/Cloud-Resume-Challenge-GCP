@@ -13,3 +13,8 @@ variable "resume_bucket" {
   description = "GCS Bucket name. Value should be unique."
   type        = string
 }
+
+variable "website_homepage" {
+  description = "html location for my homepage"
+  type        = string
+}

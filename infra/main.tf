@@ -4,8 +4,10 @@ provider "google" {
 }
 
 resource "google_storage_bucket" "resume_bucket" {
-  name     = var.resume_bucket
-  location = var.region
+  name          = var.resume_bucket
+  location      = var.region
+  storage_class = "COLDLINE"
+  website {
+    main_page_suffix = var.website_homepage
+  }
 }
-
-
