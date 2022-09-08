@@ -7,6 +7,7 @@ resource "google_project_iam_member" "tf-sa-binding" {
   project = var.project_id
   for_each = toset([
     "roles/owner",
+    "roles/storage.admin"
   ])
   role   = each.key
   member = "serviceAccount:${google_service_account.tf-sa.email}"
