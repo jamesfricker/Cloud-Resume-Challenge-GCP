@@ -18,3 +18,9 @@ Tools used
 - Google Cloud Build
 - Terraform
 - Github Actions
+
+
+Useful Links
+
+https://cloud.google.com/storage/docs/hosting-static-website#storage-create-bucket-terraform
+https://github.com/combient/gcs-static-website-terraform
