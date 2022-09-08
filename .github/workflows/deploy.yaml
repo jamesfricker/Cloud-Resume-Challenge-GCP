@@ -45,7 +45,17 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
+      id: plan
       run: terraform plan -input=false
+
+    # comment on pr with tf plan
+    - name: Post Plan
+      if: always() && github.ref != 'refs/heads/main' && (steps.plan.outcome == 'success' || steps.plan.outcome == 'failure')
+      uses: robburger/terraform-pr-commenter@v1
+      with:
+        commenter_type: plan
+        commenter_input: ${{ format('{0}{1}', steps.plan.outputs.stdout, steps.plan.outputs.stderr) }}
+        commenter_exitcode: ${{ steps.plan.outputs.exitcode }}
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
@@ -83,5 +93,5 @@ jobs:
       id: 'upload-folder'
       uses: 'google-github-actions/upload-cloud-storage@v0'
       with:
-        path: 'frontend'
+        path: 'frontend/src'
         destination: 'resume_bucket02934502349'
