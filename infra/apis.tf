@@ -6,7 +6,8 @@ resource "google_project_service" "enabled_apis" {
     "dns.googleapis.com",
     "cloudresourcemanager.googleapis.com",
     "cloudbuild.googleapis.com",
-    "run.googleapis.com"
+    "run.googleapis.com",
+    "compute.googleapis.com"
   ])
   service = each.key
 
