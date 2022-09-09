@@ -5,6 +5,7 @@ resource "google_project_service" "enabled_apis" {
     "iam.googleapis.com",
     "dns.googleapis.com",
     "cloudresourcemanager.googleapis.com",
+    "dns.googleapis.com",
     "cloudbuild.googleapis.com",
     "run.googleapis.com",
     "compute.googleapis.com"
